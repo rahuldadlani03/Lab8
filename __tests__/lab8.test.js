@@ -35,10 +35,10 @@ describe('Basic user flow for SPA ', () => {
 
   it('Test4: On first Entry page - checking page header title', async () => {
     // implement test4: Clicking on the first journal entry should update the header text to “Entry 1”
-    const header = await page.$eval("header > h1", (entry) => {
+    const firstTitle = await page.$eval("header > h1", (entry) => {
       return entry.innerHTML;
     });
-    expect(header).toBe("Entry 1");
+    expect(firstTitle).toBe("Entry 1");
   });
 
   it('Test5: On first Entry page - checking <entry-page> contents', async () => {
@@ -81,10 +81,10 @@ describe('Basic user flow for SPA ', () => {
 
   it('Test8: On Settings page - checking page header title', async () => {
     // implement test8: Clicking on the settings icon should update the header to be “Settings”
-    const title = await page.$eval("header > h1", (header) => {
+    const settingsTitle = await page.$eval("header > h1", (header) => {
       return header.innerHTML;
     });
-    expect(title).toBe("Settings");
+    expect(settingsTitle).toBe("Settings");
   });
 
   it('Test9: On Settings page - checking <body> element classes', async () => {
@@ -109,10 +109,10 @@ describe('Basic user flow for SPA ', () => {
 
   // define and implement test12: When the user if on the homepage, the header title should be “Journal Entries”
   it('Test 12: When the user if on the homepage, the header title should be “Journal Entries”', async() => {
-    const headerTitle = await page.$eval("header > h1", (heading) => {
+    const journalEntriesTitle = await page.$eval("header > h1", (heading) => {
       return heading.innerHTML;
     });
-    expect(headerTitle).toBe("Journal Entries");
+    expect(journalEntriesTitle).toBe("Journal Entries");
   });
 
   // define and implement test13: On the home page the <body> element should not have any class attribute 
@@ -131,10 +131,10 @@ describe('Basic user flow for SPA ', () => {
 
   // define and implement test15: Verify the title is current when clicking on the second entry
   it('Test 15: Verify the title is current when clicking on the second entry', async() => {
-    const headerText = await page.$eval("header > h1", (secondEntry) => {
+    const secondTitle = await page.$eval("header > h1", (secondEntry) => {
       return secondEntry.innerHTML;
     });
-    expect(secondEntry).toBe("Entry 2");
+    expect(secondTitle).toBe("Entry 2");
   });
 
   // define and implement test16: Verify the entry page contents is correct when clicking on the second entry
@@ -147,39 +147,41 @@ describe('Basic user flow for SPA ', () => {
     expect(secondEntry.content).toBe("Mama always said life was like a box of chocolates. You never know what you're gonna get.");
     expect(secondEntry.image.src).toBe("https://s.abcnews.com/images/Entertainment/HT_forrest_gump_ml_140219_4x3_992.jpg");
     expect(secondEntry.image.alt).toBe("forrest running");
-  });
+  }, 10000);
 
   // create your own test 17
-  it('Test 17: Verify the url is correct when clicking on the third entry', async () => {
+  it('Test 17: Verify the url is correct when clicking on the tenth entry', async () => {
     await page.goBack();
-    await page.click("journal-entry:nth-of-type(3)");
-    expect(page.url()).toContain("/#entry3");
-  });
+    await page.click("journal-entry:nth-of-type(10)");
+    expect(page.url()).toContain("/#entry10");
+  }, 10000);
 
   // create your own test 18
-  it('Test 18: Verify the title is current when clicking on the third entry', async () => {
-    const thirdHeader = await page.$eval("header > h1", (thirdEntry) => {
-      return thirdEntry.innerHTML;
+  it('Test 18: Verify the title is current when clicking on the tenth entry', async () => {
+    const tenthText = await page.$eval("header > h1", (currEntry) => {
+      return currEntry.innerHTML;
     });
-    expect(thirdHeader).toBe("Entry 3");
+    expect(tenthText).toBe('Entry 10');
   });
 
   // create your own test 19
-  it('Test 19: Verify the entry page contents are correct when clicking on the tenth entry (including audio)', async () => {
-    const thirdEntryPage = await page.$("entry-page");
-    const thirdEntry = await (await thirdEntryPage.getProperty("entry")).jsonValue();
+  it('Test 19: Verify the entry page contents are correct when clicking on the tenth entry', async () => {
+    const tenthEntryPage = await page.$("entry-page");
+    const tenthEntry = await (await tenthEntryPage.getProperty("entry")).jsonValue();
 
-    expect(thirdEntry.title).toBe("No, I am your father");
-    expect(thirdEntry.date).toBe("5/4/2021");
-    expect(thirdEntry.content).toBe("A long time ago, in a galaxy far, far away... It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire. During the battle, Rebel spies managed to steal secret plans to the Empire's ultimate weapon, the Death Star, an armored space station with enough power to destroy an entire planet. Pursued by the Empire's sinister agents, Princess Leia races home aboard her starship, custodian of the stolen plans that can save her people and restore freedom to the galaxy....");
-    expect(thirdEntry.image.src).toBe("https://starwarsblog.starwars.com/wp-content/uploads/2021/04/star-wars-may-the-4th-2021-TALL-3973202.jpg");
-    expect(thirdEntry.image.alt).toBe("may the fourth be with you");
-    expect(thirdEntry.audio).toBe("https://drive.google.com/uc?export=download&id=1luYh909US7ZBFe6uo440Vv_LNnRdnErT")
-  });
+    expect(tenthEntry.title).toBe("No, I am your father");
+    expect(tenthEntry.date).toBe("5/4/2021");
+    expect(tenthEntry.content).toBe("A long time ago, in a galaxy far, far away... It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire. During the battle, Rebel spies managed to steal secret plans to the Empire's ultimate weapon, the Death Star, an armored space station with enough power to destroy an entire planet. Pursued by the Empire's sinister agents, Princess Leia races home aboard her starship, custodian of the stolen plans that can save her people and restore freedom to the galaxy....");
+    expect(tenthEntry.image.src).toBe("https://starwarsblog.starwars.com/wp-content/uploads/2021/04/star-wars-may-the-4th-2021-TALL-3973202.jpg");
+    expect(tenthEntry.image.alt).toBe("may the fourth be with you");
+    expect(tenthEntry.audio).toBe("https://drive.google.com/uc?export=download&id=1luYh909US7ZBFe6uo440Vv_LNnRdnErT")
+  }, 10000);
 
   // create your own test 20
-  it('Test 20: Verify the title is current when clicking on the tenth entry', async () => {
-
+  it('Test 20: Verify the url is correct when clicking on the tenth entry', async () => {
+    await page.goBack();
+    await page.goForward();
+    expect(page.url()).toBe("http://127.0.0.1:5500/#entry10")
   });
   
 });

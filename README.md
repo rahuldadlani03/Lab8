@@ -31,3 +31,6 @@
         await page.click("header > img");
     });
     ```
+---
+## `npm test` Results
+![npm tests](npmtests.png)
