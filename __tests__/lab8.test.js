@@ -150,11 +150,36 @@ describe('Basic user flow for SPA ', () => {
   });
 
   // create your own test 17
+  it('Test 17: Verify the url is correct when clicking on the third entry', async () => {
+    await page.goBack();
+    await page.click("journal-entry:nth-of-type(3)");
+    expect(page.url()).toContain("/#entry3");
+  });
 
   // create your own test 18
+  it('Test 18: Verify the title is current when clicking on the third entry', async () => {
+    const thirdHeader = await page.$eval("header > h1", (thirdEntry) => {
+      return thirdEntry.innerHTML;
+    });
+    expect(thirdHeader).toBe("Entry 3");
+  });
 
   // create your own test 19
+  it('Test 19: Verify the entry page contents are correct when clicking on the tenth entry (including audio)', async () => {
+    const thirdEntryPage = await page.$("entry-page");
+    const thirdEntry = await (await thirdEntryPage.getProperty("entry")).jsonValue();
+
+    expect(thirdEntry.title).toBe("No, I am your father");
+    expect(thirdEntry.date).toBe("5/4/2021");
+    expect(thirdEntry.content).toBe("A long time ago, in a galaxy far, far away... It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire. During the battle, Rebel spies managed to steal secret plans to the Empire's ultimate weapon, the Death Star, an armored space station with enough power to destroy an entire planet. Pursued by the Empire's sinister agents, Princess Leia races home aboard her starship, custodian of the stolen plans that can save her people and restore freedom to the galaxy....");
+    expect(thirdEntry.image.src).toBe("https://starwarsblog.starwars.com/wp-content/uploads/2021/04/star-wars-may-the-4th-2021-TALL-3973202.jpg");
+    expect(thirdEntry.image.alt).toBe("may the fourth be with you");
+    expect(thirdEntry.audio).toBe("https://drive.google.com/uc?export=download&id=1luYh909US7ZBFe6uo440Vv_LNnRdnErT")
+  });
 
   // create your own test 20
+  it('Test 20: Verify the title is current when clicking on the tenth entry', async () => {
+
+  });
   
 });
